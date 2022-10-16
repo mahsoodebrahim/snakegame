@@ -7,6 +7,7 @@ public class SnakeGame extends Game {
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
     private Apple apple;
+    private Snake snake;
 
     public static void main(String[] args) {
         Game.launch();
@@ -14,25 +15,32 @@ public class SnakeGame extends Game {
 
     @Override
     public void initialize() {
+        setScreenSize(WIDTH, HEIGHT);
         createGame();
     }
 
     public void createGame() {
-        apple = new Apple(WIDTH / 2, HEIGHT / 2);
+        // Create Apple
+        apple = new Apple(5, 5);
+
+        // Create Snake
+        snake = new Snake();
 
         // Draw screen after game objects have been initialized
         drawScreen();
     }
 
     private void drawScreen() {
-        setScreenSize(WIDTH, HEIGHT);
 
+
+        // Clear screen
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
-                setCellColor(x, y, Color.GREEN);
+                setCellValueEx(x, y, Color.GREEN, "");
             }
         }
 
         apple.draw(this);
+        snake.draw(this);
     }
 }

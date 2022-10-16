@@ -9,6 +9,7 @@ public class Snake {
     private static final String snakeHeadSymbol = "🐍";
     private static final String snakeBodySymbol = "🔸️";
     private Color snakeColor = Color.BLUE;
+    private Direction direction = Direction.LEFT;
 
     private final ArrayList<SnakePart> snakeParts = new ArrayList<>(); // Represents the snake parts
 

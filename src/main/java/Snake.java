@@ -28,4 +28,13 @@ public class Snake {
             snakePart.draw(game);
         }
     }
+
+    public void move() {
+        SnakePart curSnakeHead = snakeParts.get(0);
+        curSnakeHead.symbol = snakeBodySymbol;
+        SnakePart newSnakeHead = new SnakePart(curSnakeHead.x - 1, curSnakeHead.y, snakeHeadSymbol, snakeColor);
+        snakeParts.add(0, newSnakeHead);
+
+        snakeParts.remove(snakeParts.size() - 1);
+    }
 }

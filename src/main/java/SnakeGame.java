@@ -19,6 +19,13 @@ public class SnakeGame extends Game {
         createGame();
     }
 
+    @Override
+    public void onTurn(int step) {
+        snake.move();
+
+        drawScreen();
+    }
+
     public void createGame() {
         // Create Apple
         apple = new Apple(5, 5);
@@ -26,13 +33,14 @@ public class SnakeGame extends Game {
         // Create Snake
         snake = new Snake();
 
+        // Initial game speed
+        setTurnTimer(300);
+
         // Draw screen after game objects have been initialized
         drawScreen();
     }
 
     private void drawScreen() {
-
-
         // Clear screen
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {

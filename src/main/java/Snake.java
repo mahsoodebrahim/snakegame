@@ -68,4 +68,8 @@ public class Snake {
             return new SnakePart(currentSnakeHead.x - 1, currentSnakeHead.y, snakeHeadSymbol, snakeColor);
         }
     }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
 }

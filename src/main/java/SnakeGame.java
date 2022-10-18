@@ -22,7 +22,7 @@ public class SnakeGame extends Game {
 
     @Override
     public void onTurn(int step) {
-//        snake.move();
+        snake.move();
 
         drawScreen();
     }
@@ -30,13 +30,13 @@ public class SnakeGame extends Game {
     @Override
     public void onKeyPress(Key key) {
         if (key == Key.UP) {
-            System.out.println(Key.UP);
+            snake.setDirection(Direction.UP);
         } else if (key == Key.RIGHT) {
-            System.out.println(Key.RIGHT);
+            snake.setDirection(Direction.RIGHT);
         } else if (key == Key.DOWN) {
-            System.out.println(Key.DOWN);
+            snake.setDirection(Direction.DOWN);
         } else if (key == Key.LEFT) {
-            System.out.println(Key.LEFT);
+            snake.setDirection(Direction.LEFT);
         }
     }
 

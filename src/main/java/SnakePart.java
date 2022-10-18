@@ -14,6 +14,10 @@ public class SnakePart extends GameObject {
 
     @Override
     public void draw(Game game) {
-        game.setCellValueEx(x, y, Color.NONE, symbol, Color.BLUE, 80);
+        game.setCellValueEx(x, y, Color.NONE, symbol, color, 80);
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

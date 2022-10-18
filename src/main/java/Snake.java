@@ -8,23 +8,29 @@ import java.util.ArrayList;
 public class Snake {
     private static final String snakeHeadSymbol = "🐍";
     private static final String snakeBodySymbol = "🔸️";
-    private Color snakeColor = Color.BLUE;
+    private Color aliveSnakeColor = Color.BLUE;
+    private Color deadSnakeColor = Color.BLACK;
     private Direction direction = Direction.LEFT;
 
     private final ArrayList<SnakePart> snakeParts = new ArrayList<>(); // Represents the snake parts
+    private boolean isAlive = true;
 
     public Snake() {
         int snakeHeadX = SnakeGame.WIDTH / 2;
         int snakeHeadY = SnakeGame.HEIGHT / 2;
 
         // Initialize snake with 3 elements initially
-        snakeParts.add(new SnakePart(snakeHeadX, snakeHeadY, snakeHeadSymbol, snakeColor));
-        snakeParts.add(new SnakePart(snakeHeadX + 1, snakeHeadY, snakeBodySymbol, snakeColor));
-        snakeParts.add(new SnakePart(snakeHeadX + 2, snakeHeadY, snakeBodySymbol, snakeColor));
+        snakeParts.add(new SnakePart(snakeHeadX, snakeHeadY, snakeHeadSymbol, aliveSnakeColor));
+        snakeParts.add(new SnakePart(snakeHeadX + 1, snakeHeadY, snakeBodySymbol, aliveSnakeColor));
+        snakeParts.add(new SnakePart(snakeHeadX + 2, snakeHeadY, snakeBodySymbol, aliveSnakeColor));
     }
 
     public void draw(Game game) {
         for (SnakePart snakePart : snakeParts) {
+            if (!isAlive) {
+                snakePart.setColor(deadSnakeColor);
+            }
+
             snakePart.draw(game);
         }
     }
@@ -38,6 +44,7 @@ public class Snake {
 
         // Check if newly created head causes snake to be out of bounds
         if (isSnakeOutOfBounds(newSnakeHead)) {
+            isAlive = false;
             return;
         }
 
@@ -63,13 +70,13 @@ public class Snake {
     // Create a new snake part in the direction the snake is traveling
     public SnakePart createNewSnakeHead(SnakePart currentSnakeHead) {
         if (direction == Direction.UP) {
-            return new SnakePart(currentSnakeHead.x, currentSnakeHead.y - 1, snakeHeadSymbol, snakeColor);
+            return new SnakePart(currentSnakeHead.x, currentSnakeHead.y - 1, snakeHeadSymbol, aliveSnakeColor);
         } else if (direction == Direction.RIGHT) {
-            return new SnakePart(currentSnakeHead.x + 1, currentSnakeHead.y, snakeHeadSymbol, snakeColor);
+            return new SnakePart(currentSnakeHead.x + 1, currentSnakeHead.y, snakeHeadSymbol, aliveSnakeColor);
         } else if (direction == Direction.DOWN) {
-            return new SnakePart(currentSnakeHead.x, currentSnakeHead.y + 1, snakeHeadSymbol, snakeColor);
+            return new SnakePart(currentSnakeHead.x, currentSnakeHead.y + 1, snakeHeadSymbol, aliveSnakeColor);
         } else {
-            return new SnakePart(currentSnakeHead.x - 1, currentSnakeHead.y, snakeHeadSymbol, snakeColor);
+            return new SnakePart(currentSnakeHead.x - 1, currentSnakeHead.y, snakeHeadSymbol, aliveSnakeColor);
         }
     }
 

@@ -2,6 +2,7 @@ package main.java;
 
 import com.codegym.engine.cell.Color;
 import com.codegym.engine.cell.Game;
+import com.codegym.engine.cell.Key;
 
 public class SnakeGame extends Game {
     public static final int WIDTH = 15;
@@ -21,9 +22,22 @@ public class SnakeGame extends Game {
 
     @Override
     public void onTurn(int step) {
-        snake.move();
+//        snake.move();
 
         drawScreen();
+    }
+
+    @Override
+    public void onKeyPress(Key key) {
+        if (key == Key.UP) {
+            System.out.println(Key.UP);
+        } else if (key == Key.RIGHT) {
+            System.out.println(Key.RIGHT);
+        } else if (key == Key.DOWN) {
+            System.out.println(Key.DOWN);
+        } else if (key == Key.LEFT) {
+            System.out.println(Key.LEFT);
+        }
     }
 
     public void createGame() {

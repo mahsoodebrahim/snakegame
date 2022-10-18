@@ -31,10 +31,10 @@ public class Snake {
 
     public void move() {
         // Get current snake head
-        SnakePart curSnakeHead = snakeParts.get(0);
+        SnakePart currentSnakeHead = snakeParts.get(0);
 
-        // Create a new snake head in the snake's travel direction
-        SnakePart newSnakeHead = new SnakePart(curSnakeHead.x - 1, curSnakeHead.y, snakeHeadSymbol, snakeColor);
+        // Create a new snake head in the direction the snake is traveling
+        SnakePart newSnakeHead = createNewSnakeHead(currentSnakeHead);
 
         // Check if newly created head causes snake to be out of bounds
         if (isSnakeOutOfBounds(newSnakeHead)) {
@@ -42,7 +42,7 @@ public class Snake {
         }
 
         // Update current head symbol to a snake body symbol
-        curSnakeHead.symbol = snakeBodySymbol;
+        currentSnakeHead.symbol = snakeBodySymbol;
 
         // Add new snake head to beginning on snakeParts list
         snakeParts.add(0, newSnakeHead);
@@ -54,5 +54,18 @@ public class Snake {
     public boolean isSnakeOutOfBounds(SnakePart snakeHead) {
         // Snake if out of bounds conditions
         return snakeHead.x < 0 || snakeHead.x >= SnakeGame.WIDTH || snakeHead.y < 0 || snakeHead.y >= SnakeGame.HEIGHT;
+    }
+
+    // Create a new snake part in the direction the snake is traveling
+    public SnakePart createNewSnakeHead(SnakePart currentSnakeHead) {
+        if (direction == Direction.UP) {
+            return new SnakePart(currentSnakeHead.x, currentSnakeHead.y + 1, snakeHeadSymbol, snakeColor);
+        } else if (direction == Direction.RIGHT) {
+            return new SnakePart(currentSnakeHead.x + 1, currentSnakeHead.y, snakeHeadSymbol, snakeColor);
+        } else if (direction == Direction.DOWN) {
+            return new SnakePart(currentSnakeHead.x, currentSnakeHead.y - 1, snakeHeadSymbol, snakeColor);
+        } else {
+            return new SnakePart(currentSnakeHead.x - 1, currentSnakeHead.y, snakeHeadSymbol, snakeColor);
+        }
     }
 }

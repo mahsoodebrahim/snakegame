@@ -29,7 +29,7 @@ public class Snake {
         }
     }
 
-    public void move() {
+    public void move(Apple apple) {
         // Get current snake head
         SnakePart currentSnakeHead = snakeParts.get(0);
 
@@ -47,8 +47,12 @@ public class Snake {
         // Add new snake head to beginning on snakeParts list
         snakeParts.add(0, newSnakeHead);
 
-        // Remove last element of snakeParts list
-        snakeParts.remove(snakeParts.size() - 1);
+        // Remove last element of snakeParts list if snake head and apple are not on the same coordinate
+        if (snakeAteApple(apple, newSnakeHead)) {
+            apple.setAlive(false);
+        } else {
+            snakeParts.remove(snakeParts.size() - 1);
+        }
     }
 
     public boolean isSnakeOutOfBounds(SnakePart snakeHead) {
@@ -79,5 +83,9 @@ public class Snake {
         }
 
         direction = newDirection;
+    }
+
+    public boolean snakeAteApple(Apple apple, SnakePart snakeHead) {
+        return apple.x == snakeHead.x && apple.y == snakeHead.y;
     }
 }

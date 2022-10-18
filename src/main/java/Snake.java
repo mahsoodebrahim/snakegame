@@ -59,11 +59,11 @@ public class Snake {
     // Create a new snake part in the direction the snake is traveling
     public SnakePart createNewSnakeHead(SnakePart currentSnakeHead) {
         if (direction == Direction.UP) {
-            return new SnakePart(currentSnakeHead.x, currentSnakeHead.y + 1, snakeHeadSymbol, snakeColor);
+            return new SnakePart(currentSnakeHead.x, currentSnakeHead.y - 1, snakeHeadSymbol, snakeColor);
         } else if (direction == Direction.RIGHT) {
             return new SnakePart(currentSnakeHead.x + 1, currentSnakeHead.y, snakeHeadSymbol, snakeColor);
         } else if (direction == Direction.DOWN) {
-            return new SnakePart(currentSnakeHead.x, currentSnakeHead.y - 1, snakeHeadSymbol, snakeColor);
+            return new SnakePart(currentSnakeHead.x, currentSnakeHead.y + 1, snakeHeadSymbol, snakeColor);
         } else {
             return new SnakePart(currentSnakeHead.x - 1, currentSnakeHead.y, snakeHeadSymbol, snakeColor);
         }

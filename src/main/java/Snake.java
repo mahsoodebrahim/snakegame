@@ -117,4 +117,12 @@ public class Snake {
 
         return false;
     }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public int length() {
+        return snakeParts.size();
+    }
 }

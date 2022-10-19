@@ -7,9 +7,15 @@ import com.codegym.engine.cell.Key;
 public class SnakeGame extends Game {
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
+    private static final int GOAL_SNAKE_LENGTH = 10;
+    private static final String WINNING_MESSAGE = "YOU WIN! 🎉";
+    private static final String LOSING_MESSAGE = "YOU LOSE! ☹️";
+
     private Apple apple;
     private Snake snake;
     private int gameSpeed;
+    private boolean isGameOver;
+
 
     public static void main(String[] args) {
         Game.launch();
@@ -36,6 +42,13 @@ public class SnakeGame extends Game {
             apple = createNewApple();
         }
 
+        // Check game ending conditions
+        if (!snake.isAlive()) {
+            gameOver(LOSING_MESSAGE);
+        } else if (snake.length() == GOAL_SNAKE_LENGTH) {
+            gameOver(WINNING_MESSAGE);
+        }
+
         drawScreen();
     }
 
@@ -53,6 +66,9 @@ public class SnakeGame extends Game {
     }
 
     public void createGame() {
+        // Set the game as running
+        isGameOver = false;
+
         // Create Snake
         snake = new Snake();
 
@@ -91,5 +107,16 @@ public class SnakeGame extends Game {
         } while (snake.collidesWith(newApple));
 
         return newApple;
+    }
+
+    public void gameOver(String gameEndingMessage) {
+        // Indicate the game has ended
+        isGameOver = true;
+
+        // Stop turn timer
+        stopTurnTimer();
+
+        // Show winning or losing message
+        showMessageDialog(Color.NONE, gameEndingMessage, Color.DARKKHAKI, 80);
     }
 }

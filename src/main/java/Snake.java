@@ -42,8 +42,9 @@ public class Snake {
         // Create a new snake head in the direction the snake is traveling
         SnakePart newSnakeHead = createNewSnakeHead(currentSnakeHead);
 
-        // Check if newly created head causes snake to be out of bounds
-        if (isSnakeOutOfBounds(newSnakeHead)) {
+        // Check if newly created snake head causes snake to be out of bounds
+        // Or if newly created snake head intercepts any snake body part
+        if (isSnakeOutOfBounds(newSnakeHead) || collidesWith(newSnakeHead)) {
             isAlive = false;
             return;
         }

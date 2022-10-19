@@ -24,6 +24,13 @@ public class SnakeGame extends Game {
     public void onTurn(int step) {
         snake.move(apple);
 
+        // Apple has been eaten
+        if (!apple.isAlive()) {
+            // Reset apple
+            apple.setAlive(true);
+            apple = createNewApple();
+        }
+
         drawScreen();
     }
 

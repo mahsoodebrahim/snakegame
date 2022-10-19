@@ -95,4 +95,15 @@ public class Snake {
     public boolean snakeAteApple(Apple apple, SnakePart snakeHead) {
         return apple.x == snakeHead.x && apple.y == snakeHead.y;
     }
+
+    public boolean collidesWith(GameObject gameObject) {
+        for (SnakePart snakePart: snakeParts) {
+            if (snakePart.x == gameObject.x
+            && snakePart.y == gameObject.y) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

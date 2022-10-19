@@ -41,11 +41,13 @@ public class SnakeGame extends Game {
     }
 
     public void createGame() {
-        // Create Apple
-        apple = createNewApple();
-
         // Create Snake
         snake = new Snake();
+
+        // Create Apple
+        // createNewApple method requires the snake object to be defined
+        // which is why the snake object is created first
+        apple = createNewApple();
 
         // Initial game speed
         setTurnTimer(300);
@@ -67,8 +69,14 @@ public class SnakeGame extends Game {
     }
 
     private Apple createNewApple() {
-        int x = getRandomNumber(WIDTH);
-        int y = getRandomNumber(HEIGHT);
-        return new Apple(x, y);
+        Apple newApple;
+
+        do {
+            int randX = getRandomNumber(WIDTH);
+            int randY = getRandomNumber(HEIGHT);
+            newApple = new Apple(randX, randY);
+        } while (snake.collidesWith(newApple));
+
+        return newApple;
     }
 }

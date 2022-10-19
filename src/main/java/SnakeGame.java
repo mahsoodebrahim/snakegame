@@ -42,7 +42,7 @@ public class SnakeGame extends Game {
 
     public void createGame() {
         // Create Apple
-        apple = new Apple(5, 5);
+        apple = createNewApple();
 
         // Create Snake
         snake = new Snake();
@@ -64,5 +64,11 @@ public class SnakeGame extends Game {
 
         apple.draw(this);
         snake.draw(this);
+    }
+
+    private Apple createNewApple() {
+        int x = getRandomNumber(WIDTH);
+        int y = getRandomNumber(HEIGHT);
+        return new Apple(x, y);
     }
 }

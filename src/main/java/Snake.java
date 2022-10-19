@@ -83,6 +83,16 @@ public class Snake {
 
     public void setDirection(Direction newDirection) {
         // Prevent illegal direction change
+        SnakePart snakeHead = snakeParts.get(0);
+        SnakePart snake1stBodyElement = snakeParts.get(1);
+
+        if (direction == Direction.UP & (snakeHead.y == snake1stBodyElement.y)
+                || direction == Direction.DOWN & (snakeHead.y == snake1stBodyElement.y)
+                || direction == Direction.LEFT & (snakeHead.x == snake1stBodyElement.x)
+                || direction == Direction.RIGHT & (snakeHead.x == snake1stBodyElement.x)) {
+            return;
+        }
+
         if (direction == Direction.UP && newDirection == Direction.DOWN
                 || direction == Direction.DOWN && newDirection == Direction.UP
                 || direction == Direction.LEFT && newDirection == Direction.RIGHT
@@ -98,9 +108,9 @@ public class Snake {
     }
 
     public boolean collidesWith(GameObject gameObject) {
-        for (SnakePart snakePart: snakeParts) {
+        for (SnakePart snakePart : snakeParts) {
             if (snakePart.x == gameObject.x
-            && snakePart.y == gameObject.y) {
+                    && snakePart.y == gameObject.y) {
                 return true;
             }
         }

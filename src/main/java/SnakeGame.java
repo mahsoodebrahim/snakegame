@@ -62,6 +62,8 @@ public class SnakeGame extends Game {
             snake.setDirection(Direction.DOWN);
         } else if (key == Key.LEFT) {
             snake.setDirection(Direction.LEFT);
+        } else if (key == Key.SPACE) {
+            if (isGameOver) createGame();
         }
     }
 

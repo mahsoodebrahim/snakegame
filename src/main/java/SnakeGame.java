@@ -9,6 +9,7 @@ public class SnakeGame extends Game {
     public static final int HEIGHT = 15;
     private Apple apple;
     private Snake snake;
+    private int gameSpeed;
 
     public static void main(String[] args) {
         Game.launch();
@@ -26,6 +27,10 @@ public class SnakeGame extends Game {
 
         // Apple has been eaten
         if (!apple.isAlive()) {
+            // Decrease game speed to make snake move faster
+            gameSpeed -= 20;
+            setTurnTimer(gameSpeed);
+
             // Reset apple
             apple.setAlive(true);
             apple = createNewApple();
@@ -57,7 +62,8 @@ public class SnakeGame extends Game {
         apple = createNewApple();
 
         // Initial game speed
-        setTurnTimer(300);
+        gameSpeed = 300;
+        setTurnTimer(gameSpeed);
 
         // Draw screen after game objects have been initialized
         drawScreen();

@@ -8,6 +8,7 @@ public class SnakeGame extends Game {
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
     private static final int GOAL_SNAKE_LENGTH = 10;
+    private static final int APPLE_REWARD_POINTS = 5;
     private static final String WINNING_MESSAGE = "YOU WIN! 🎉";
     private static final String LOSING_MESSAGE = "YOU LOSE! ☹️";
 
@@ -15,6 +16,7 @@ public class SnakeGame extends Game {
     private Snake snake;
     private int gameSpeed;
     private boolean isGameOver;
+    private int gameScore;
 
 
     public static void main(String[] args) {
@@ -40,6 +42,10 @@ public class SnakeGame extends Game {
             // Reset apple
             apple.setAlive(true);
             apple = createNewApple();
+
+            // Increase score
+            gameScore += APPLE_REWARD_POINTS;
+            setScore(gameScore);
         }
 
         // Check game ending conditions
@@ -82,6 +88,10 @@ public class SnakeGame extends Game {
         // Initial game speed
         gameSpeed = 300;
         setTurnTimer(gameSpeed);
+
+        // Initialize game score to start at 0
+        gameScore = 0;
+        setScore(gameScore);
 
         // Draw screen after game objects have been initialized
         drawScreen();

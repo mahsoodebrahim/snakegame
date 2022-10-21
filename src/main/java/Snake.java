@@ -35,7 +35,7 @@ public class Snake {
         }
     }
 
-    public void move(Apple apple) {
+    public void move(Fruit ...fruits) {
         // Get current snake head
         SnakePart currentSnakeHead = snakeParts.get(0);
 
@@ -55,9 +55,12 @@ public class Snake {
         // Add new snake head to beginning on snakeParts list
         snakeParts.add(0, newSnakeHead);
 
-        // Remove last element of snakeParts list if snake head and apple are not on the same coordinate
-        if (snakeAteApple(apple, newSnakeHead)) {
-            apple.setAlive(false);
+        // If snake ate any fruit, set that fruit's isAlive attribute to false, otherwise remove last snake
+        // body element. The snake's last body element is removed because a new head element
+        // is added to the front of the snakeParts array during each game tick, creating a "moving" effect
+        Fruit fruitSnakeAte = fruitSnakeAte(fruits, newSnakeHead);
+        if (fruitSnakeAte != null) {
+            fruitSnakeAte.setAlive(false);
         } else {
             snakeParts.remove(snakeParts.size() - 1);
         }
@@ -103,8 +106,20 @@ public class Snake {
         direction = newDirection;
     }
 
-    public boolean snakeAteApple(Apple apple, SnakePart snakeHead) {
-        return apple.x == snakeHead.x && apple.y == snakeHead.y;
+    private boolean didSnakeEatFruit(Fruit fruit, SnakePart snakeHead) {
+        return fruit.x == snakeHead.x && fruit.y == snakeHead.y;
+    }
+
+    // Returns first fruit eaten by snake because snake cannot eat
+    // more than one fruit at a time
+    private Fruit fruitSnakeAte(Fruit[] fruits, SnakePart snakeHead) {
+        for (Fruit fruit : fruits) {
+            if (didSnakeEatFruit(fruit, snakeHead)) {
+                return fruit;
+            }
+        }
+
+        return null;
     }
 
     public boolean collidesWith(GameObject gameObject) {

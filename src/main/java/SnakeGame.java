@@ -9,10 +9,12 @@ public class SnakeGame extends Game {
     public static final int HEIGHT = 15;
     private static final int GOAL_SNAKE_LENGTH = 10;
     private static final int APPLE_REWARD_POINTS = 5;
+    private static final int GRAPE_REWARD_POINTS = 15;
     private static final String WINNING_MESSAGE = "YOU WIN! 🎉";
     private static final String LOSING_MESSAGE = "YOU LOSE! ☹️";
 
     private Apple apple;
+    private Grape grape;
     private Snake snake;
     private int gameSpeed;
     private boolean isGameOver;
@@ -31,7 +33,7 @@ public class SnakeGame extends Game {
 
     @Override
     public void onTurn(int step) {
-        snake.move(apple);
+        snake.move(apple, grape);
 
         // Apple has been eaten
         if (!apple.isAlive()) {
@@ -45,6 +47,21 @@ public class SnakeGame extends Game {
 
             // Increase score
             gameScore += APPLE_REWARD_POINTS;
+            setScore(gameScore);
+        }
+
+        // Grape has been eaten
+        if (!grape.isAlive()) {
+            // Decrease game speed to make snake move faster
+            gameSpeed -= 20;
+            setTurnTimer(gameSpeed);
+
+            // Reset grape
+            grape.setAlive(true);
+            grape = createNewGrape();
+
+            // Increase score
+            gameScore += GRAPE_REWARD_POINTS;
             setScore(gameScore);
         }
 
@@ -80,10 +97,11 @@ public class SnakeGame extends Game {
         // Create Snake
         snake = new Snake();
 
-        // Create Apple
-        // createNewApple method requires the snake object to be defined
+        // Create Fruit
+        // createNew<Fruit Name> method requires the snake object to be defined
         // which is why the snake object is created first
         apple = createNewApple();
+        grape = createNewGrape();
 
         // Initial game speed
         gameSpeed = 300;
@@ -106,6 +124,7 @@ public class SnakeGame extends Game {
         }
 
         apple.draw(this);
+        grape.draw(this);
         snake.draw(this);
     }
 
@@ -119,6 +138,18 @@ public class SnakeGame extends Game {
         } while (snake.collidesWith(newApple));
 
         return newApple;
+    }
+
+    private Grape createNewGrape() {
+        Grape newGrape;
+
+        do {
+            int randX = getRandomNumber(WIDTH);
+            int randY = getRandomNumber(HEIGHT);
+            newGrape = new Grape(randX, randY);
+        } while (snake.collidesWith(newGrape) && (newGrape.x != apple.x && newGrape.y != apple.y));
+
+        return newGrape;
     }
 
     public void gameOver(String gameEndingMessage) {

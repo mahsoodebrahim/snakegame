@@ -135,7 +135,7 @@ public class SnakeGame extends Game {
             int randX = getRandomNumber(WIDTH);
             int randY = getRandomNumber(HEIGHT);
             newApple = new Apple(randX, randY);
-        } while (snake.collidesWith(newApple));
+        } while (snake.collidesWith(newApple) || newApple.collidesWith(grape));
 
         return newApple;
     }
@@ -147,7 +147,7 @@ public class SnakeGame extends Game {
             int randX = getRandomNumber(WIDTH);
             int randY = getRandomNumber(HEIGHT);
             newGrape = new Grape(randX, randY);
-        } while (snake.collidesWith(newGrape) && (newGrape.x != apple.x && newGrape.y != apple.y));
+        } while (snake.collidesWith(newGrape) || newGrape.collidesWith(apple));
 
         return newGrape;
     }

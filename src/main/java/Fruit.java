@@ -17,4 +17,14 @@ public abstract class Fruit extends GameObject {
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
+
+    public boolean collidesWith(Fruit ...otherFruits) {
+        for (Fruit otherFruit : otherFruits) {
+            if (otherFruit == null) continue;
+
+            if (this.x == otherFruit.x && this.y == otherFruit.y) return true;
+        }
+
+        return false;
+    }
 }

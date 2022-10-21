@@ -48,8 +48,9 @@ public class SnakeGame extends Game {
             setTurnTimer(gameSpeed);
 
             // Reset apple
+            fruits.remove(apple);
             apple.setAlive(true);
-            apple = createNewApple();
+            apple = (Apple) createNewFruit(APPLE);
 
             // Increase score
             gameScore += APPLE_REWARD_POINTS;
@@ -63,10 +64,9 @@ public class SnakeGame extends Game {
             setTurnTimer(gameSpeed);
 
             // Reset grape
-//            fruits.remove(grape);
+            fruits.remove(grape);
             grape.setAlive(true);
-            grape = createNewGrape();
-//            grape = (Grape) createNewFruit(GRAPE);
+            grape = (Grape) createNewFruit(GRAPE);
 
 
             // Increase score
@@ -106,17 +106,18 @@ public class SnakeGame extends Game {
         // Create Snake
         snake = new Snake();
 
-        // Create Fruit
-        // createNew<Fruit Name> method requires the snake object to be defined
-        // which is why the snake object is created first
-//        fruits = new ArrayList<>();
-        apple = createNewApple();
-        grape = createNewGrape();
-//        grape = (Grape) createNewFruit(GRAPE);
+        // Create fruits array
+        fruits = new ArrayList<>();
 
-//        fruits.add(apple);
-//        fruits.add(grape);
-//        Grape grape2 = (Grape) createNewFruit(GRAPE);
+        // Create Fruit
+        // createNewFruit(FruitName) method requires the snake object and fruits array
+        // to be defined which is why they are created first
+        apple = (Apple) createNewFruit(APPLE);
+        grape = (Grape) createNewFruit(GRAPE);
+
+        // Add fruit to fruits array
+        fruits.add(apple);
+        fruits.add(grape);
 
         // Initial game speed
         gameSpeed = 300;
@@ -141,30 +142,6 @@ public class SnakeGame extends Game {
         apple.draw(this);
         grape.draw(this);
         snake.draw(this);
-    }
-
-    private Apple createNewApple() {
-        Apple newApple;
-
-        do {
-            int randX = getRandomNumber(WIDTH);
-            int randY = getRandomNumber(HEIGHT);
-            newApple = new Apple(randX, randY);
-        } while (snake.collidesWith(newApple) || newApple.collidesWith(grape));
-
-        return newApple;
-    }
-
-    private Grape createNewGrape() {
-        Grape newGrape;
-
-        do {
-            int randX = getRandomNumber(WIDTH);
-            int randY = getRandomNumber(HEIGHT);
-            newGrape = new Grape(randX, randY);
-        } while (snake.collidesWith(newGrape) || newGrape.collidesWith(apple));
-
-        return newGrape;
     }
 
     private Fruit createNewFruit(String fruitType) {

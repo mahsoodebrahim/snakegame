@@ -4,6 +4,8 @@ import com.codegym.engine.cell.Color;
 import com.codegym.engine.cell.Game;
 import com.codegym.engine.cell.Key;
 
+import java.util.ArrayList;
+
 public class SnakeGame extends Game {
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
@@ -12,6 +14,9 @@ public class SnakeGame extends Game {
     private static final int GRAPE_REWARD_POINTS = 15;
     private static final String WINNING_MESSAGE = "YOU WIN! 🎉";
     private static final String LOSING_MESSAGE = "YOU LOSE! ☹️";
+    public static final String APPLE = "APPLE";
+    public static final String GRAPE = "GRAPE";
+
 
     private Apple apple;
     private Grape grape;
@@ -19,6 +24,7 @@ public class SnakeGame extends Game {
     private int gameSpeed;
     private boolean isGameOver;
     private int gameScore;
+    private ArrayList<Fruit> fruits;
 
 
     public static void main(String[] args) {
@@ -57,8 +63,11 @@ public class SnakeGame extends Game {
             setTurnTimer(gameSpeed);
 
             // Reset grape
+//            fruits.remove(grape);
             grape.setAlive(true);
             grape = createNewGrape();
+//            grape = (Grape) createNewFruit(GRAPE);
+
 
             // Increase score
             gameScore += GRAPE_REWARD_POINTS;
@@ -100,8 +109,14 @@ public class SnakeGame extends Game {
         // Create Fruit
         // createNew<Fruit Name> method requires the snake object to be defined
         // which is why the snake object is created first
+//        fruits = new ArrayList<>();
         apple = createNewApple();
         grape = createNewGrape();
+//        grape = (Grape) createNewFruit(GRAPE);
+
+//        fruits.add(apple);
+//        fruits.add(grape);
+//        Grape grape2 = (Grape) createNewFruit(GRAPE);
 
         // Initial game speed
         gameSpeed = 300;
@@ -150,6 +165,39 @@ public class SnakeGame extends Game {
         } while (snake.collidesWith(newGrape) || newGrape.collidesWith(apple));
 
         return newGrape;
+    }
+
+    private Fruit createNewFruit(String fruitType) {
+        Fruit newFruit;
+
+        do {
+            int randX = getRandomNumber(WIDTH);
+            int randY = getRandomNumber(HEIGHT);
+            newFruit = createInstanceOfFruit(fruitType, randX, randY);
+        } while (snake.collidesWith(newFruit) || fruitsCollidesWith(newFruit));
+
+        return newFruit;
+    }
+
+    private Fruit createInstanceOfFruit(String fruitType, int x, int y) {
+        switch (fruitType) {
+            case APPLE:
+                return new Apple(x, y);
+            case GRAPE:
+                return new Grape(x, y);
+        }
+
+        return null;
+    }
+
+    private boolean fruitsCollidesWith(Fruit newFruit) {
+        for (Fruit fruit: fruits) {
+            if (fruit.x == newFruit.x && fruit.y == newFruit.y) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void gameOver(String gameEndingMessage) {

@@ -46,18 +46,7 @@ public class SnakeGame extends Game {
         for (Fruit curFruit : fruits) {
             // This fruit has been eaten
             if (!curFruit.isAlive()) {
-                // Decrease game speed to make snake move faster
-                gameSpeed -= 20;
-                setTurnTimer(gameSpeed);
-
-                // Reset fruit and change fruit location on board
-                curFruit.setAlive(true);
-                changeFruitLocation(curFruit);
-
-                // Increase score
-                String fruitType = curFruit.getClass().getSimpleName();
-                gameScore += fruitTypeRewardPoints(fruitType);
-                setScore(gameScore);
+                updateGameStatusForFruit(curFruit);
             }
         }
 
@@ -196,5 +185,20 @@ public class SnakeGame extends Game {
             fruit.x = randX;
             fruit.y = randY;
         } while (snake.collidesWith(fruit) || collidesWithOtherFruit(fruit));
+    }
+
+    private void updateGameStatusForFruit(Fruit fruit) {
+        // Decrease game speed to make snake move faster
+        gameSpeed -= 20;
+        setTurnTimer(gameSpeed);
+
+        // Reset fruit and change fruit location on board
+        fruit.setAlive(true);
+        changeFruitLocation(fruit);
+
+        // Increase score
+        String fruitType = fruit.getClass().getSimpleName();
+        gameScore += fruitTypeRewardPoints(fruitType);
+        setScore(gameScore);
     }
 }

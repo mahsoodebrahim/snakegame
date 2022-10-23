@@ -12,17 +12,21 @@ public class SnakeGame extends Game {
     private static final int WINNING_SCORE_CONDITION = 100;
     private static final int SNAKE_SPEED_INCREASE_FROM_APPLE = 10;
     private static final int SNAKE_SPEED_INCREASE_FROM_GRAPE = 15;
+    private static final int SNAKE_SPEED_INCREASE_FROM_BANANA = 20;
     private static final int APPLE_REWARD_POINTS = 5;
     private static final int GRAPE_REWARD_POINTS = 10;
+    private static final int BANANA_REWARD_POINTS = 15;
     private static final int NO_REWARD_POINTS = 0;
     private static final String WINNING_MESSAGE = "YOU WIN! 🎉";
     private static final String LOSING_MESSAGE = "YOU LOSE! ☹️";
     public static final String APPLE = "Apple"; // This spelling is chosen on purpose to match call of <instance>.getClass().getSimpleName()
     public static final String GRAPE = "Grape"; // This spelling is chosen on purpose to match call of <instance>.getClass().getSimpleName()
+    public static final String BANANA = "Banana"; // This spelling is chosen on purpose to match call of <instance>.getClass().getSimpleName()
 
 
     private Apple apple;
     private Grape grape;
+    private Banana banana;
     private Snake snake;
     private int gameSpeed;
     private boolean isGameOver;
@@ -92,10 +96,12 @@ public class SnakeGame extends Game {
         // to be defined which is why they are created first
         apple = (Apple) createNewFruit(APPLE);
         grape = (Grape) createNewFruit(GRAPE);
+        banana = (Banana) createNewFruit(BANANA);
 
         // Add fruit to fruits array
         fruits.add(apple);
         fruits.add(grape);
+        fruits.add(banana);
 
         // Initial game speed
         gameSpeed = 300;
@@ -117,8 +123,11 @@ public class SnakeGame extends Game {
             }
         }
 
-        apple.draw(this);
-        grape.draw(this);
+        // Draw fruit
+        for (Fruit fruit: fruits) {
+            fruit.draw(this);
+        }
+
         snake.draw(this);
     }
 
@@ -141,6 +150,8 @@ public class SnakeGame extends Game {
                 return new Apple(x, y);
             case GRAPE:
                 return new Grape(x, y);
+            case BANANA:
+                return new Banana(x, y);
         }
 
         return null;
@@ -175,6 +186,8 @@ public class SnakeGame extends Game {
                 return APPLE_REWARD_POINTS;
             case GRAPE:
                 return GRAPE_REWARD_POINTS;
+            case BANANA:
+                return BANANA_REWARD_POINTS;
             default:
                 return NO_REWARD_POINTS;
         }
@@ -186,6 +199,8 @@ public class SnakeGame extends Game {
                 return SNAKE_SPEED_INCREASE_FROM_APPLE;
             case GRAPE:
                 return SNAKE_SPEED_INCREASE_FROM_GRAPE;
+            case BANANA:
+                return SNAKE_SPEED_INCREASE_FROM_BANANA;
             default:
                 return 0;
         }

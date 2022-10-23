@@ -10,6 +10,8 @@ public class SnakeGame extends Game {
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
     private static final int WINNING_SCORE_CONDITION = 100;
+    private static final int SNAKE_SPEED_INCREASE_FROM_APPLE = 10;
+    private static final int SNAKE_SPEED_INCREASE_FROM_GRAPE = 15;
     private static final int APPLE_REWARD_POINTS = 5;
     private static final int GRAPE_REWARD_POINTS = 10;
     private static final int NO_REWARD_POINTS = 0;
@@ -178,6 +180,17 @@ public class SnakeGame extends Game {
         }
     }
 
+    private int snakeSpeedIncreaseFromFruit(String fruitType) {
+        switch (fruitType) {
+            case APPLE:
+                return SNAKE_SPEED_INCREASE_FROM_APPLE;
+            case GRAPE:
+                return SNAKE_SPEED_INCREASE_FROM_GRAPE;
+            default:
+                return 0;
+        }
+    }
+
     private void changeFruitLocation(Fruit fruit) {
         do {
             int randX = getRandomNumber(WIDTH);
@@ -188,16 +201,17 @@ public class SnakeGame extends Game {
     }
 
     private void updateGameStatusForFruit(Fruit fruit) {
-        // Decrease game speed to make snake move faster
-        gameSpeed -= 10;
-        setTurnTimer(gameSpeed);
-
         // Reset fruit and change fruit location on board
         fruit.setAlive(true);
         changeFruitLocation(fruit);
 
+        String fruitType = fruit.getClass().getSimpleName(); // Get fruit type (Apple, Grape, etc.)
+
+        // Decrease game speed to make snake move faster
+        gameSpeed -= snakeSpeedIncreaseFromFruit(fruitType);
+        setTurnTimer(gameSpeed);
+
         // Increase score
-        String fruitType = fruit.getClass().getSimpleName();
         gameScore += fruitTypeRewardPoints(fruitType);
         setScore(gameScore);
     }

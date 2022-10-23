@@ -57,7 +57,7 @@ public class Snake {
 
         // If snake ate any fruit, set that fruit's isAlive attribute to false, otherwise remove last snake
         // body element. The snake's last body element is removed because a new head element
-        // is added to the front of the snakeParts array during each game tick, creating a "moving" effect
+        // is added to the front of the snakeParts array during each game tick, creating an "elongating" effect
         Fruit fruitSnakeAte = fruitSnakeAte(fruits, newSnakeHead);
         if (fruitSnakeAte != null) {
             fruitSnakeAte.setAlive(false);

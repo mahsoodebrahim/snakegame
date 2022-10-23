@@ -12,10 +12,11 @@ public class SnakeGame extends Game {
     private static final int GOAL_SNAKE_LENGTH = 10;
     private static final int APPLE_REWARD_POINTS = 5;
     private static final int GRAPE_REWARD_POINTS = 15;
+    private static final int NO_REWARD_POINTS = 0;
     private static final String WINNING_MESSAGE = "YOU WIN! 🎉";
     private static final String LOSING_MESSAGE = "YOU LOSE! ☹️";
-    public static final String APPLE = "APPLE";
-    public static final String GRAPE = "GRAPE";
+    public static final String APPLE = "Apple"; // This spelling is chosen on purpose to match call of <instance>.getClass().getSimpleName()
+    public static final String GRAPE = "Grape"; // This spelling is chosen on purpose to match call of <instance>.getClass().getSimpleName()
 
 
     private Apple apple;
@@ -39,39 +40,32 @@ public class SnakeGame extends Game {
 
     @Override
     public void onTurn(int step) {
-        snake.move(apple, grape);
+        // Pass fruit list to snake
+        snake.move(fruits.toArray(new Fruit[0]));
 
-        // Apple has been eaten
-        if (!apple.isAlive()) {
-            // Decrease game speed to make snake move faster
-            gameSpeed -= 20;
-            setTurnTimer(gameSpeed);
+        for (int i = 0; i < fruits.size(); i++) {
+            Fruit curFruit = fruits.get(i);
 
-            // Reset apple
-            fruits.remove(apple);
-            apple.setAlive(true);
-            apple = (Apple) createNewFruit(APPLE);
+            // This fruit has been eaten
+            if (!curFruit.isAlive()) {
+                // Decrease game speed to make snake move faster
+                gameSpeed -= 20;
+                setTurnTimer(gameSpeed);
 
-            // Increase score
-            gameScore += APPLE_REWARD_POINTS;
-            setScore(gameScore);
-        }
+                // Create new fruit on board
+                curFruit.setAlive(true);
+                do {
+                    int randX = getRandomNumber(WIDTH);
+                    int randY = getRandomNumber(HEIGHT);
+                    curFruit.x = randX;
+                    curFruit.y = randY;
+                } while (snake.collidesWith(curFruit) || collidesWithOtherFruit(curFruit));
 
-        // Grape has been eaten
-        if (!grape.isAlive()) {
-            // Decrease game speed to make snake move faster
-            gameSpeed -= 20;
-            setTurnTimer(gameSpeed);
-
-            // Reset grape
-            fruits.remove(grape);
-            grape.setAlive(true);
-            grape = (Grape) createNewFruit(GRAPE);
-
-
-            // Increase score
-            gameScore += GRAPE_REWARD_POINTS;
-            setScore(gameScore);
+                // Increase score
+                String fruitType = curFruit.getClass().getSimpleName();
+                gameScore += fruitTypeRewardPoints(fruitType);
+                setScore(gameScore);
+            }
         }
 
         // Check game ending conditions
@@ -168,7 +162,7 @@ public class SnakeGame extends Game {
     }
 
     private boolean fruitsCollidesWith(Fruit newFruit) {
-        for (Fruit fruit: fruits) {
+        for (Fruit fruit : fruits) {
             if (fruit.x == newFruit.x && fruit.y == newFruit.y) {
                 return true;
             }
@@ -186,5 +180,28 @@ public class SnakeGame extends Game {
 
         // Show winning or losing message
         showMessageDialog(Color.NONE, gameEndingMessage, Color.DARKKHAKI, 80);
+    }
+
+    private boolean collidesWithOtherFruit(Fruit newFruit) {
+        for (Fruit fruit : fruits) {
+            if (fruit.getClass().isInstance(newFruit)) continue; // same fruit, don't check this fruit for overlap
+
+            if (fruit.x == newFruit.x && fruit.y == newFruit.y) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private int fruitTypeRewardPoints(String fruitType) {
+        switch (fruitType) {
+            case APPLE:
+                return APPLE_REWARD_POINTS;
+            case GRAPE:
+                return GRAPE_REWARD_POINTS;
+            default:
+                return NO_REWARD_POINTS;
+        }
     }
 }

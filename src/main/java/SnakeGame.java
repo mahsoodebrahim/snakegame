@@ -43,23 +43,16 @@ public class SnakeGame extends Game {
         // Pass fruit list to snake
         snake.move(fruits.toArray(new Fruit[0]));
 
-        for (int i = 0; i < fruits.size(); i++) {
-            Fruit curFruit = fruits.get(i);
-
+        for (Fruit curFruit : fruits) {
             // This fruit has been eaten
             if (!curFruit.isAlive()) {
                 // Decrease game speed to make snake move faster
                 gameSpeed -= 20;
                 setTurnTimer(gameSpeed);
 
-                // Create new fruit on board
+                // Reset fruit and change fruit location on board
                 curFruit.setAlive(true);
-                do {
-                    int randX = getRandomNumber(WIDTH);
-                    int randY = getRandomNumber(HEIGHT);
-                    curFruit.x = randX;
-                    curFruit.y = randY;
-                } while (snake.collidesWith(curFruit) || collidesWithOtherFruit(curFruit));
+                changeFruitLocation(curFruit);
 
                 // Increase score
                 String fruitType = curFruit.getClass().getSimpleName();
@@ -139,13 +132,14 @@ public class SnakeGame extends Game {
     }
 
     private Fruit createNewFruit(String fruitType) {
-        Fruit newFruit;
+        int randX = getRandomNumber(WIDTH);
+        int randY = getRandomNumber(HEIGHT);
 
-        do {
-            int randX = getRandomNumber(WIDTH);
-            int randY = getRandomNumber(HEIGHT);
-            newFruit = createInstanceOfFruit(fruitType, randX, randY);
-        } while (snake.collidesWith(newFruit) || fruitsCollidesWith(newFruit));
+        Fruit newFruit = createInstanceOfFruit(fruitType, randX, randY);
+
+        if (snake.collidesWith(newFruit) || collidesWithOtherFruit(newFruit)) {
+            changeFruitLocation(newFruit);
+        }
 
         return newFruit;
     }
@@ -159,16 +153,6 @@ public class SnakeGame extends Game {
         }
 
         return null;
-    }
-
-    private boolean fruitsCollidesWith(Fruit newFruit) {
-        for (Fruit fruit : fruits) {
-            if (fruit.x == newFruit.x && fruit.y == newFruit.y) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public void gameOver(String gameEndingMessage) {
@@ -203,5 +187,14 @@ public class SnakeGame extends Game {
             default:
                 return NO_REWARD_POINTS;
         }
+    }
+
+    private void changeFruitLocation(Fruit fruit) {
+        do {
+            int randX = getRandomNumber(WIDTH);
+            int randY = getRandomNumber(HEIGHT);
+            fruit.x = randX;
+            fruit.y = randY;
+        } while (snake.collidesWith(fruit) || collidesWithOtherFruit(fruit));
     }
 }

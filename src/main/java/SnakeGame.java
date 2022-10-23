@@ -9,9 +9,9 @@ import java.util.ArrayList;
 public class SnakeGame extends Game {
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
-    private static final int GOAL_SNAKE_LENGTH = 10;
+    private static final int WINNING_SCORE_CONDITION = 100;
     private static final int APPLE_REWARD_POINTS = 5;
-    private static final int GRAPE_REWARD_POINTS = 15;
+    private static final int GRAPE_REWARD_POINTS = 10;
     private static final int NO_REWARD_POINTS = 0;
     private static final String WINNING_MESSAGE = "YOU WIN! 🎉";
     private static final String LOSING_MESSAGE = "YOU LOSE! ☹️";
@@ -53,7 +53,7 @@ public class SnakeGame extends Game {
         // Check game ending conditions
         if (!snake.isAlive()) {
             gameOver(LOSING_MESSAGE);
-        } else if (snake.length() == GOAL_SNAKE_LENGTH) {
+        } else if (gameScore >= WINNING_SCORE_CONDITION) {
             gameOver(WINNING_MESSAGE);
         }
 
@@ -189,7 +189,7 @@ public class SnakeGame extends Game {
 
     private void updateGameStatusForFruit(Fruit fruit) {
         // Decrease game speed to make snake move faster
-        gameSpeed -= 20;
+        gameSpeed -= 10;
         setTurnTimer(gameSpeed);
 
         // Reset fruit and change fruit location on board
